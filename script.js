@@ -17,39 +17,48 @@ function generateMonthDates() {
     const monthName = new Date(currentYear, currentMonth).toLocaleString('default', { month: 'long' });
     document.getElementById('month-year').textContent = `${monthName} ${currentYear}`;
 
-    const daysToShow = [14, 15, 26]; // De dagen die we willen tonen
-    const lastSelectableDate = new Date(currentYear, currentMonth + 2, 0); // 2 maanden na de huidige datum
+    const daysToShow = [14, 15, 26]; // The days we want to show
+    const lastSelectableDate = new Date(currentYear, currentMonth + 2, 0); // Two months after the current date
 
-    // Voor elke gewenste dag (14, 15, 26)
+    // Define the date after which no further dates can be selected (January 14, 2025)
+    const maxSelectableDate = new Date(2025, 0, 14); // January 14, 2025
+
+    // Loop through each desired day (14, 15, 26)
     daysToShow.forEach(day => {
         const targetDate = new Date(currentYear, currentMonth, day);
 
-        // Controleer of de dag binnen de geldige range valt voor de huidige maand en de komende twee maanden
+        // Check if the target date is within the valid range
         if (targetDate <= lastSelectableDate) {
             const dateButton = document.createElement('button');
             dateButton.classList.add('button');
             dateButton.textContent = `${monthName} ${day}`;
 
-            // Grijs de datums die in het verleden liggen
-            if (targetDate < currentDate) {
+            // Disable and grey out dates beyond January 14, 2025
+            if (targetDate > maxSelectableDate) {
                 dateButton.disabled = true;
-                dateButton.classList.add('is-light');  // Gebruik de Bulma class om de knop te grijzen
+                dateButton.classList.add('is-light');  // Use the Bulma class to grey out the button
+            } else if (targetDate < currentDate) {
+                // Disable and grey out dates in the past
+                dateButton.disabled = true;
+                dateButton.classList.add('is-light');
             } else {
+                // Otherwise, allow selection
                 dateButton.onclick = function() { selectDate(day); };
             }
 
             dateList.appendChild(dateButton);
         } else {
-            // Als de datum buiten de toegestane range valt, disable de knop
+            // If the date is outside the allowed range, disable the button
             const dateButton = document.createElement('button');
             dateButton.classList.add('button');
             dateButton.textContent = `${monthName} ${day}`;
-            dateButton.disabled = true; // Disable de knop
-            dateButton.classList.add('is-light'); // Grijs de knop
+            dateButton.disabled = true; // Disable the button
+            dateButton.classList.add('is-light'); // Grey out the button
             dateList.appendChild(dateButton);
         }
     });
 }
+
 
 function selectDate(day) {
     selectedDate = `${new Date(currentYear, currentMonth).toLocaleString('default', { month: 'long' })} ${day}`;
