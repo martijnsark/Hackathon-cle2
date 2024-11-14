@@ -60,10 +60,13 @@ function generateMonthDates() {
 }
 
 function selectDate(day) {
-    selectedDate = `${new Date(currentYear, currentMonth).toLocaleString('default', { month: 'long' })} ${day}`;
+    // Get the full month name and day in the desired format: "day, month"
+    const monthName = new Date(currentYear, currentMonth).toLocaleString('default', { month: 'long' });
+    selectedDate = `${day} ${monthName}`;  // Day first, then month
     document.getElementById('date-card').style.display = 'none';
     document.getElementById('start-time-card').style.display = 'block';
 }
+
 
 function selectStartTime(time) {
     selectedStartTime = time;
@@ -141,13 +144,13 @@ function sendEmail() {
 
     // Format email subject and body
     const subject = `${studentName} - Afspraak ${date} van ${startTime} tot ${endTime}`;
-    const body = `Beste,\n\nHierbij de bevestiging van de afspraak:\n\n`
+    const body = `Beste, mentor\n\nHierbij de bevestiging van de afspraak:\n\n`
         + `Student: ${studentName}\n`
         + `Ouder(s): ${parentName}\n`
         + `Datum: ${date}\n`
         + `Begintijd: ${startTime}\n`
         + `Eindtijd: ${endTime}\n\n`
-        + `Met vriendelijke groet,\nMentor Mireille`;
+        + `Met vriendelijke groet,\n${studentName}`;
 
     // Open mailto link with specified recipient email
     const mailtoLink = `mailto:realmentor@gmail.com?subject=${encodeURIComponent(subject)}&body=${encodeURIComponent(body)}`;
