@@ -1,53 +1,156 @@
 <!DOCTYPE html>
-<html>
-    <head>
-        <meta charset="utf-8">
-        <meta name="viewport" content="width=device-width, initial-scale=1">
-        <title>Hello Bulma!</title>
-        <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bulma@1.0.2/css/bulma.min.css">
-        <link rel="stylesheet" href="style.css" alt="alt css code">
-    </head>
+<html lang="">
+<head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <title>Mentor Gesprek Planner</title>
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bulma@1.0.2/css/bulma.min.css">
+    <link rel="stylesheet" href="style.css">
+</head>
 
-    <nav class="navbar" role="navigation" aria-label="main navigation">
-        <div class="navbar-brand">
-            <a class="navbar-item">
-                About
-            </a>
-            <a class="navbar-item is-selected">
-                Jobs
-            </a>
-            <a class="navbar-item">
-                Contact
-            </a>
-            <hr class="navbar-divider">
-            <a class="navbar-item">
-                Report an issue
-            </a>
+<body>
+<nav class="navbar" role="navigation" aria-label="main navigation">
+    <div class="navbar-brand">
+        <!-- Update the link to target the ID of the first card -->
+        <a class="navbar-item" href="#info-card">meer weten</a>
+        <a class="navbar-item is-selected" href="contact-meldingen.html">contact opnemen of probleem melden?</a>
+    </div>
+</nav>
+
+<section class="section">
+    <div class="container">
+        <h1 class="title">Mentoor Mireille</h1>
+        <p class="subtitle">
+            Hier kan je een mentoor gesprek plannen met <strong>Mentor Mireille</strong>!
+        </p>
+    </div>
+</section>
+
+<!-- First Card (Info Card) with ID -->
+<div class="card original-card" id="info-card">
+    <div class="card-content">
+        <div class="content">
+            Lorem ipsum leo risus, porta ac consectetur ac, vestibulum at eros. Donec id elit non mi porta gravida at eget metus.
+            Cum sociis natoque penatibus et magnis dis parturient montes, nascetur ridiculus mus. Cras mattis consectetur purus sit amet fermentum.
         </div>
-    </nav>
+    </div>
+</div>
 
+<!-- Second Card (Form Card) -->
+<div class="columns is-centered">
+    <div class="column is-half">
+        <div class="card" id="form-card">
+            <div class="card-content">
+                <div class="content">
+                    <form id="student-form">
+                        <div class="field">
+                            <label class="label">Naam van de student</label>
+                            <div class="control">
+                                <input class="input" type="text" placeholder="Naam van de student" id="student-name" required>
+                            </div>
+                        </div>
 
-    <body>
-    <section class="section">
-        <div class="container">
-            <h1 class="title">
-                Hello World
-            </h1>
-            <p class="subtitle">
-                My first website with <strong>Bulma</strong>!
-            </p>
+                        <div class="field">
+                            <label class="label">Naam van de ouder(s)</label>
+                            <div class="control">
+                                <input class="input" type="text" placeholder="Naam van de ouder(s)" id="parent-name" required>
+                            </div>
+                        </div>
+
+                        <div class="control">
+                            <button class="button is-link" type="submit">Volgende</button>
+                        </div>
+                    </form>
+                </div>
+            </div>
         </div>
-    </section>
-    </body>
 
-    <footer class="footer">
-        <div class="content has-text-centered">
-            <p>
-                <strong>Mentoor gesprek planner</strong> gemaakt door <a href="https://github.com/martijnsark?tab=repositories">Martijn van der willigen</a>.
-                The website was designed voor
-                <a href="https://www.linkedin.com/in/mireille-menting-a76a9a129/">Mentor mireille menting</a>.
-                zodat studenten en ouders online een mentoor gesprek kunnen plannen.
-            </p>
+        <!-- Third Card (Date Selection Card) -->
+        <div class="card" id="date-card" style="display: none;">
+            <div class="card-content">
+                <div class="content">
+                    <h2 class="subtitle">Selecteer een datum in november</h2>
+                    <div id="date-list" class="buttons">
+                        <!-- November dates will be generated here -->
+                    </div>
+                </div>
+            </div>
         </div>
-    </footer>
+
+        <!-- Fourth Card (Start Time Selection Card) -->
+        <div class="card" id="start-time-card" style="display: none;">
+            <div class="card-content">
+                <div class="content">
+                    <h2 class="subtitle">Kies een begintijd voor het gesprek</h2>
+                    <div id="start-time-list" class="buttons">
+                        <button class="button" onclick="selectStartTime('09:00')">09:00</button>
+                        <button class="button" onclick="selectStartTime('09:30')">09:30</button>
+                        <button class="button" onclick="selectStartTime('10:00')">10:00</button>
+                        <button class="button" onclick="selectStartTime('10:30')">10:30</button>
+                        <button class="button" onclick="selectStartTime('11:00')">11:00</button>
+                        <button class="button" onclick="selectStartTime('11:30')">11:30</button>
+                        <button class="button" onclick="selectStartTime('12:00')">12:00</button>
+                        <button class="button" onclick="selectStartTime('12:30')">12:30</button>
+                        <button class="button" onclick="selectStartTime('13:00')">13:00</button>
+                        <button class="button" onclick="selectStartTime('13:30')">13:30</button>
+                        <button class="button" onclick="selectStartTime('14:00')">14:00</button>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- Fifth Card (End Time Selection Card) -->
+        <div class="card" id="end-time-card" style="display: none;">
+            <div class="card-content">
+                <div class="content">
+                    <h2 class="subtitle">Kies een eindtijd voor het gesprek</h2>
+                    <div id="end-time-list" class="buttons">
+                        <button class="button" onclick="selectEndTime('09:00')">09:00</button>
+                        <button class="button" onclick="selectEndTime('09:30')">09:30</button>
+                        <button class="button" onclick="selectEndTime('10:00')">10:00</button>
+                        <button class="button" onclick="selectEndTime('10:30')">10:30</button>
+                        <button class="button" onclick="selectEndTime('11:00')">11:00</button>
+                        <button class="button" onclick="selectEndTime('11:30')">11:30</button>
+                        <button class="button" onclick="selectEndTime('12:00')">12:00</button>
+                        <button class="button" onclick="selectEndTime('12:30')">12:30</button>
+                        <button class="button" onclick="selectEndTime('13:00')">13:00</button>
+                        <button class="button" onclick="selectEndTime('13:30')">13:30</button>
+                        <button class="button" onclick="selectEndTime('14:00')">14:00</button>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+
+        <!-- Sixth Card (Summary Card) -->
+        <div class="card" id="summary-card" style="display: none;">
+            <div class="card-content">
+                <div class="content">
+                    <h2 class="subtitle">Bevestiging van de afspraak</h2>
+                    <p><strong>Student:</strong> <span id="summary-student-name"></span></p>
+                    <p><strong>Ouder(s):</strong> <span id="summary-parent-name"></span></p>
+                    <p><strong>Datum:</strong> <span id="summary-date"></span></p>
+                    <p><strong>Begintijd:</strong> <span id="summary-start-time"></span></p>
+                    <p><strong>Eindtijd:</strong> <span id="summary-end-time"></span></p>
+                    <button class="button is-link" onclick="sendEmail()">Stuur per e-mail</button>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+<footer class="footer">
+    <div class="content has-text-centered">
+        <p>
+            <strong>Mentoor gesprek planner</strong> gemaakt door <a href="https://github.com/martijnsark?tab=repositories">Martijn van der willigen</a>.
+            De website is ontworpen voor
+            <a href="https://www.linkedin.com/in/mireille-menting-a76a9a129/">Mentor Mireille Menting</a>
+            zodat studenten en ouders online een mentor gesprek kunnen plannen.
+        </p>
+    </div>
+</footer>
+
+<script src="script.js"></script>
+
+</body>
 </html>

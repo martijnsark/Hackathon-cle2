@@ -1,0 +1,16 @@
+.original-card {
+    margin: 25px 700px 100px 100px;
+}
+
+.columns.is-centered .column.is-half {
+    margin: 25px 0 100px 100px;
+}
+
+.card-content {
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    height: 100%;
+}
+
