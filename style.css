@@ -14,3 +14,46 @@
     height: 100%;
 }
 
+/* Confetti Styles */
+#fireworks-container {
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    pointer-events: none;  /* Zorgt ervoor dat de animatie geen interactie heeft met andere elementen */
+    z-index: 9999;
+    opacity: 0;
+    transition: opacity 1s ease;
+}
+
+.confetti {
+    position: absolute;
+    width: 10px;
+    height: 10px;
+    background-color: red;
+    animation: fall 2s infinite;
+    opacity: 0;
+}
+
+.confetti:nth-child(odd) {
+    background-color: blue;
+}
+
+.confetti:nth-child(2n) {
+    background-color: green;
+}
+
+@keyframes fall {
+    0% {
+        top: -10%;
+        transform: rotate(0deg);
+        opacity: 1;
+    }
+    100% {
+        top: 100%;
+        transform: rotate(360deg);
+        opacity: 0;
+    }
+}
+

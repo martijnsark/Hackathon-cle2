@@ -59,7 +59,6 @@ function generateMonthDates() {
     });
 }
 
-
 function selectDate(day) {
     selectedDate = `${new Date(currentYear, currentMonth).toLocaleString('default', { month: 'long' })} ${day}`;
     document.getElementById('date-card').style.display = 'none';
@@ -109,6 +108,27 @@ function showSummary() {
     document.getElementById('summary-end-time').textContent = selectedEndTime;
 
     document.getElementById('summary-card').style.display = 'block';
+    triggerConfetti();  // Trigger the confetti animation when the summary is shown
+}
+
+function triggerConfetti() {
+    const container = document.getElementById('fireworks-container');
+    container.style.opacity = 1; // Show the container
+
+    // Voeg confetti toe
+    for (let i = 0; i < 100; i++) {
+        const confetti = document.createElement('div');
+        confetti.classList.add('confetti');
+        confetti.style.left = `${Math.random() * 100}%`;
+        confetti.style.animationDuration = `${Math.random() * 3 + 2}s`; // Randomize speed
+        container.appendChild(confetti);
+    }
+
+    // Optioneel: Na 5 seconden de confetti animatie stoppen
+    setTimeout(() => {
+        container.style.opacity = 0;
+        container.innerHTML = '';  // Verwijder de confetti
+    }, 5000);
 }
 
 function sendEmail() {
