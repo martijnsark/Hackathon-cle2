@@ -69,13 +69,18 @@
         <div class="card" id="date-card" style="display: none;">
             <div class="card-content">
                 <div class="content">
-                    <h2 class="subtitle">Selecteer een datum in november</h2>
+                    <h2 class="subtitle">Selecteer een datum in <span id="month-year"></span></h2>
+                    <div class="navigation-buttons">
+                        <button class="button" onclick="previousMonth()">← Vorige maand</button>
+                        <button class="button" onclick="nextMonth()">Volgende maand →</button>
+                    </div>
                     <div id="date-list" class="buttons">
-                        <!-- November dates will be generated here -->
+                        <!-- Date buttons will be generated here -->
                     </div>
                 </div>
             </div>
         </div>
+
 
         <!-- Fourth Card (Start Time Selection Card) -->
         <div class="card" id="start-time-card" style="display: none;">
@@ -93,7 +98,6 @@
                         <button class="button" onclick="selectStartTime('12:30')">12:30</button>
                         <button class="button" onclick="selectStartTime('13:00')">13:00</button>
                         <button class="button" onclick="selectStartTime('13:30')">13:30</button>
-                        <button class="button" onclick="selectStartTime('14:00')">14:00</button>
                     </div>
                 </div>
             </div>
