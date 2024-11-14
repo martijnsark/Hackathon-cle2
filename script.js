@@ -1,12 +1,13 @@
 let selectedDate, selectedStartTime, selectedEndTime;
-let currentMonth = 10;  // November (0-indexed: 0 = January, 10 = November)
-let currentYear = 2024; // Initial year
+let currentDate = new Date();  // Huidige datum
+let currentMonth = currentDate.getMonth();  // Huidige maand (0-11)
+let currentYear = currentDate.getFullYear();  // Huidig jaar
 
 document.getElementById('student-form').addEventListener('submit', function(event) {
     event.preventDefault();
     document.getElementById('form-card').style.display = 'none';
     document.getElementById('date-card').style.display = 'block';
-    generateMonthDates();
+    generateMonthDates(); // Genereer de datums voor de geselecteerde maand
 });
 
 function generateMonthDates() {
@@ -17,21 +18,38 @@ function generateMonthDates() {
     document.getElementById('month-year').textContent = `${monthName} ${currentYear}`;
 
     const daysToShow = [14, 15, 26]; // De dagen die we willen tonen
+    const lastSelectableDate = new Date(currentYear, currentMonth + 2, 0); // 2 maanden na de huidige datum
 
     // Voor elke gewenste dag (14, 15, 26)
     daysToShow.forEach(day => {
-        // Controleer of de dag binnen de geldige range valt voor de huidige maand
-        const lastDayOfMonth = new Date(currentYear, currentMonth + 1, 0).getDate();
-        if (day <= lastDayOfMonth) {
+        const targetDate = new Date(currentYear, currentMonth, day);
+
+        // Controleer of de dag binnen de geldige range valt voor de huidige maand en de komende twee maanden
+        if (targetDate <= lastSelectableDate) {
             const dateButton = document.createElement('button');
             dateButton.classList.add('button');
             dateButton.textContent = `${monthName} ${day}`;
-            dateButton.onclick = function() { selectDate(day); };
+
+            // Grijs de datums die in het verleden liggen
+            if (targetDate < currentDate) {
+                dateButton.disabled = true;
+                dateButton.classList.add('is-light');  // Gebruik de Bulma class om de knop te grijzen
+            } else {
+                dateButton.onclick = function() { selectDate(day); };
+            }
+
+            dateList.appendChild(dateButton);
+        } else {
+            // Als de datum buiten de toegestane range valt, disable de knop
+            const dateButton = document.createElement('button');
+            dateButton.classList.add('button');
+            dateButton.textContent = `${monthName} ${day}`;
+            dateButton.disabled = true; // Disable de knop
+            dateButton.classList.add('is-light'); // Grijs de knop
             dateList.appendChild(dateButton);
         }
     });
 }
-
 
 function selectDate(day) {
     selectedDate = `${new Date(currentYear, currentMonth).toLocaleString('default', { month: 'long' })} ${day}`;
@@ -74,48 +92,35 @@ function calculateEndTime(startTime) {
 }
 
 function showSummary() {
-    // Format de datum zoals "14 november"
-    const formattedDate = formatDate(selectedDate);
-
-    // Vul de samenvatting in
+    // Fill in the summary details
     document.getElementById('summary-student-name').textContent = document.getElementById('student-name').value;
     document.getElementById('summary-parent-name').textContent = document.getElementById('parent-name').value;
-    document.getElementById('summary-date').textContent = formattedDate;
+    document.getElementById('summary-date').textContent = selectedDate;
     document.getElementById('summary-start-time').textContent = selectedStartTime;
     document.getElementById('summary-end-time').textContent = selectedEndTime;
 
     document.getElementById('summary-card').style.display = 'block';
 }
 
-// Functie om de datum te formatteren zoals "14 november"
-function formatDate(date) {
-    const [monthName, day] = date.split(' ');
-    return `${day} ${monthName}`; // Formatteert als "14 november"
-}
-
-
 function sendEmail() {
-    // Haal de waarden voor de e-mail op
+    // Retrieve values for email
     const studentName = document.getElementById('summary-student-name').textContent;
     const parentName = document.getElementById('summary-parent-name').textContent;
     const date = document.getElementById('summary-date').textContent;
     const startTime = document.getElementById('summary-start-time').textContent;
     const endTime = document.getElementById('summary-end-time').textContent;
 
-    // Formatteer de datum zoals "14 november"
-    const formattedDate = formatDate(date);
-
-    // Format de e-mail onderwerp en body
-    const subject = `${studentName} - Afspraak ${formattedDate} van ${startTime} tot ${endTime}`;
+    // Format email subject and body
+    const subject = `${studentName} - Afspraak ${date} van ${startTime} tot ${endTime}`;
     const body = `Beste,\n\nHierbij de bevestiging van de afspraak:\n\n`
         + `Student: ${studentName}\n`
         + `Ouder(s): ${parentName}\n`
-        + `Datum: ${formattedDate}\n`
+        + `Datum: ${date}\n`
         + `Begintijd: ${startTime}\n`
         + `Eindtijd: ${endTime}\n\n`
         + `Met vriendelijke groet,\nMentor Mireille`;
 
-    // Open de mailto link met het opgegeven onderwerp en body
+    // Open mailto link with specified recipient email
     const mailtoLink = `mailto:realmentor@gmail.com?subject=${encodeURIComponent(subject)}&body=${encodeURIComponent(body)}`;
     window.location.href = mailtoLink;
 }
@@ -123,8 +128,8 @@ function sendEmail() {
 function previousMonth() {
     currentMonth--;
     if (currentMonth < 0) {
-        currentMonth = 11;  // December
-        currentYear--;      // Previous year
+        currentMonth = 11;
+        currentYear--;
     }
     generateMonthDates();
 }
@@ -132,8 +137,8 @@ function previousMonth() {
 function nextMonth() {
     currentMonth++;
     if (currentMonth > 11) {
-        currentMonth = 0;   // January
-        currentYear++;      // Next year
+        currentMonth = 0;
+        currentYear++;
     }
     generateMonthDates();
 }
